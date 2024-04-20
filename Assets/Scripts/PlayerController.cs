@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
 	[Header("Technical")]
 	[SerializeField] private Transform playerFeet;
 
+	private Vector2 checkpointPosition = Vector2.zero;
+
 	private float horizontalInput;
 	private int direction = 1;
 
@@ -24,15 +26,20 @@ public class PlayerController : MonoBehaviour
 	private Rigidbody2D rb;
 	private GameObject cameraObj;
 
+	public void SetCheckpoint(Vector2 pos)
+	{
+		checkpointPosition = pos;
+	}
+
+	public void Damage(float amount)
+	{
+		Debug.Log("Dead !");
+		transform.position = checkpointPosition;
+	}
 
 	private void Jump()
 	{
 		rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-	}
-
-	private void Dash(int direction)
-	{
-		rb.AddForce(Vector2.right * dashForce * direction, ForceMode2D.Impulse);
 	}
 
 	private bool IsGrounded()
