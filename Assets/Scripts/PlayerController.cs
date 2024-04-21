@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+	[Header("Statistics")]
+	[SerializeField] private float maxYValue = -8f;
+
 	[Header("Properties")]
 	[SerializeField] private float movementSpeed = 15f;
 	[SerializeField] private float jumpForce = 10f;
@@ -31,10 +34,21 @@ public class PlayerController : MonoBehaviour
 		checkpointPosition = pos;
 	}
 
+	public void TeleportToCheckpoint()
+	{
+		rb.velocity = Vector2.zero;
+		transform.position = checkpointPosition;
+	}
+
 	public void Damage(float amount)
 	{
 		Debug.Log("Dead !");
-		transform.position = checkpointPosition;
+		KillPlayer();
+	}
+
+	public void KillPlayer()
+	{
+		TeleportToCheckpoint();
 	}
 
 	private void Jump()
@@ -56,8 +70,17 @@ public class PlayerController : MonoBehaviour
 	void Update()
 	{
 		cameraObj.transform.position = new Vector3(transform.position.x, transform.position.y, -10f);
-		horizontalInput = Input.GetAxis("Horizontal");
+		horizontalInput = Input.GetAxisRaw("Horizontal");
 
+		if (transform.position.y < maxYValue)
+		{
+			KillPlayer();
+		}
+
+		if (Input.GetKeyDown(KeyCode.K))
+		{
+			TeleportToCheckpoint();
+		}
 
 		if (Input.GetAxisRaw("Horizontal") < 0)
 			direction = -1;

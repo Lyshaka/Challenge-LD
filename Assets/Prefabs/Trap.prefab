@@ -344,8 +344,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thorns: {fileID: 3246034970431750796}
-  triggerdelay: 0.5
-  firstTriggerTime: 0.1
+  triggerdelay: 0.3
+  firstTriggerTime: 0.05
   secondTriggerTime: 0.1
   resetDelay: 0.8
   resetTime: 0.1
