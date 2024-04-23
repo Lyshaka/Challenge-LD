@@ -9,11 +9,23 @@ public class TimeDoor : MonoBehaviour
 
 	[SerializeField] private GameObject doorUp;
 	[SerializeField] private GameObject doorDown;
-	[SerializeField] private GameObject timer;
+	[SerializeField] private GameObject timerDoor;
+	[SerializeField] private GameObject timerLever;
+
+
+
+	private Coroutine c;
 
 	public void OpenDoor()
 	{
-		StartCoroutine(AnimateDoor());
+		if (c != null)
+			StopCoroutine(c);
+		c = StartCoroutine(AnimateDoor());
+	}
+
+	public float GetTiming()
+	{
+		return duration;
 	}
 
     // Start is called before the first frame update
@@ -35,11 +47,13 @@ public class TimeDoor : MonoBehaviour
 		doorDown.SetActive(false);
 		while (elapsedTime < duration)
 		{
-			timer.GetComponent<Image>().fillAmount = 1 - (elapsedTime / duration);
+			timerDoor.GetComponent<Image>().fillAmount = 1 - (elapsedTime / duration);
+			timerLever.GetComponent<Image>().fillAmount = 1 - (elapsedTime / duration);
 			elapsedTime += Time.deltaTime;
 			yield return null;
 		}
-		timer.GetComponent<Image>().fillAmount = 0;
+		timerDoor.GetComponent<Image>().fillAmount = 0;
+		timerLever.GetComponent<Image>().fillAmount = 0;
 		doorUp.SetActive(true);
 		doorDown.SetActive(true);
 	}

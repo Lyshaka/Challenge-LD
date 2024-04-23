@@ -58,7 +58,8 @@ public class PlayerController : MonoBehaviour
 
 	private bool IsGrounded()
 	{
-		return (Physics2D.OverlapCircle(playerFeet.position, 0.1f, (1 << 6)));
+		//return (Physics2D.OverlapCircle(playerFeet.position, 0.1f, (1 << 6)));
+		return (Physics2D.OverlapBox(playerFeet.position, new Vector2(0.8f, 0.1f), 0, (1 << 6)));
 	}
 
 	void Start()

@@ -6,6 +6,11 @@ public class PressurePlate : MonoBehaviour
 {
     [SerializeField] private GameObject door;
 
+	void Start()
+	{
+		door.GetComponent<TimeDoor>().GetTiming();
+	}
+
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		if (other.gameObject.layer == 3)
