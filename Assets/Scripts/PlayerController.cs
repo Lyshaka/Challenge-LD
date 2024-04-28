@@ -15,8 +15,11 @@ public class PlayerController : MonoBehaviour
 
 	[Header("Technical")]
 	[SerializeField] private Transform playerFeet;
+	[SerializeField] private Sprite directionArrow;
+    [SerializeField] private Sprite dashArrow;
+    [SerializeField] private SpriteRenderer directionSprite;
 
-	private Vector2 checkpointPosition = Vector2.zero;
+    private Vector2 checkpointPosition = Vector2.zero;
 
 	private float horizontalInput;
 	private int direction = 1;
@@ -88,6 +91,8 @@ public class PlayerController : MonoBehaviour
 		else if (Input.GetAxisRaw("Horizontal") > 0)
 			direction = 1;
 
+		directionSprite.flipX = direction == -1 ? true : false;
+
 		isGrounded = IsGrounded();
 		if (!isDashing && isGrounded)
 		{
@@ -112,11 +117,13 @@ public class PlayerController : MonoBehaviour
 	{
 		canDash = false;
 		isDashing = true;
+		directionSprite.sprite = dashArrow;
 		float defaultGravity = rb.gravityScale;
 		rb.gravityScale = 0;
 		rb.velocity = new Vector2(dashForce * direction, 0f);
 		yield return new WaitForSeconds(dashTime);
-		rb.gravityScale = defaultGravity;
+        directionSprite.sprite = directionArrow;
+        rb.gravityScale = defaultGravity;
 		isDashing = false;
 	}
 }
