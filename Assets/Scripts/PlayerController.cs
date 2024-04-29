@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -16,10 +17,17 @@ public class PlayerController : MonoBehaviour
 	[Header("Technical")]
 	[SerializeField] private Transform playerFeet;
 	[SerializeField] private Sprite directionArrow;
-    [SerializeField] private Sprite dashArrow;
-    [SerializeField] private SpriteRenderer directionSprite;
+	[SerializeField] private Sprite dashArrow;
+	[SerializeField] private SpriteRenderer directionSprite;
+	[SerializeField] private GameObject debugImage;
 
-    private Vector2 checkpointPosition = Vector2.zero;
+	private Vector2 checkpointPosition = Vector2.zero;
+
+	private float defaultGravity;
+
+	private bool canInput = true;
+	private bool debug = false;
+	private float debugSpeed = 20;
 
 	private float horizontalInput;
 	private int direction = 1;
@@ -39,19 +47,21 @@ public class PlayerController : MonoBehaviour
 
 	public void TeleportToCheckpoint()
 	{
+		StartCoroutine(BlockInput(0.3f));
+		horizontalInput = 0f;
 		rb.velocity = Vector2.zero;
 		transform.position = checkpointPosition;
 	}
 
 	public void Damage(float amount)
 	{
-		Debug.Log("Dead !");
 		KillPlayer();
 	}
 
 	public void KillPlayer()
 	{
-		TeleportToCheckpoint();
+		if (!debug)
+			TeleportToCheckpoint();
 	}
 
 	private void Jump()
@@ -69,45 +79,69 @@ public class PlayerController : MonoBehaviour
 	{
 		rb = GetComponent<Rigidbody2D>();
 		cameraObj = Camera.main.gameObject;
+		defaultGravity = rb.gravityScale;
 	}
 
 	void Update()
 	{
 		cameraObj.transform.position = new Vector3(transform.position.x, transform.position.y, -10f);
-		horizontalInput = Input.GetAxisRaw("Horizontal");
 
-		if (transform.position.y < maxYValue)
+		if (Input.GetKeyDown(KeyCode.H))
 		{
-			KillPlayer();
+			debug = !debug;
+			debugImage.SetActive(debug);
+			rb.gravityScale = debug ? 0f : defaultGravity;
 		}
 
-		if (Input.GetKeyDown(KeyCode.K))
+		if (debug)
 		{
-			TeleportToCheckpoint();
+			rb.velocity = Vector2.zero;
+			transform.position += new Vector3(Input.GetAxisRaw("Horizontal") * debugSpeed * Time.deltaTime, Input.GetAxisRaw("Vertical") * debugSpeed * Time.deltaTime, 0f);
+			if (Input.GetKeyDown(KeyCode.K))
+			{
+				TeleportToCheckpoint();
+			}
+			if (Input.GetKeyDown(KeyCode.J))
+			{
+				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+			}
+
 		}
-
-		if (Input.GetAxisRaw("Horizontal") < 0)
-			direction = -1;
-		else if (Input.GetAxisRaw("Horizontal") > 0)
-			direction = 1;
-
-		directionSprite.flipX = direction == -1 ? true : false;
-
-		isGrounded = IsGrounded();
-		if (!isDashing && isGrounded)
+		else
 		{
-			canDash = true;
-		}
+			if (canInput)
+			{
+				horizontalInput = Input.GetAxisRaw("Horizontal");
 
-		if (isGrounded && Input.GetKeyDown(KeyCode.Space))
-			Jump();
-		if (canDash && !isDashing && Input.GetKeyDown(KeyCode.LeftShift))
-			StartCoroutine(Dash());
+				if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+					Jump();
+				if (canDash && !isDashing && Input.GetKeyDown(KeyCode.LeftShift))
+					StartCoroutine(Dash());
+			}
+
+			if (transform.position.y < maxYValue)
+			{
+				KillPlayer();
+			}
+
+			if (horizontalInput < 0)
+				direction = -1;
+			else if (horizontalInput > 0)
+				direction = 1;
+
+			directionSprite.flipX = direction == -1 ? true : false;
+
+			isGrounded = IsGrounded();
+			if (!isDashing && isGrounded)
+			{
+				canDash = true;
+			}
+		}
 	}
 
 	void FixedUpdate()
 	{
-		if (!isDashing)
+		if (!isDashing && !debug)
 		{
 			rb.velocity = new Vector2(horizontalInput * movementSpeed, rb.velocity.y);
 		}
@@ -122,8 +156,15 @@ public class PlayerController : MonoBehaviour
 		rb.gravityScale = 0;
 		rb.velocity = new Vector2(dashForce * direction, 0f);
 		yield return new WaitForSeconds(dashTime);
-        directionSprite.sprite = directionArrow;
-        rb.gravityScale = defaultGravity;
+		directionSprite.sprite = directionArrow;
+		rb.gravityScale = defaultGravity;
 		isDashing = false;
+	}
+
+	IEnumerator BlockInput(float time)
+	{
+		canInput = false;
+		yield return new WaitForSeconds(time);
+		canInput = true;
 	}
 }

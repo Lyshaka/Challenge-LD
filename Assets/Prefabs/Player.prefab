@@ -124,10 +124,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3393816747073067377}
+  - component: {fileID: 8621610015510174039}
   - component: {fileID: 8674547832484977495}
   - component: {fileID: 7415666990114500159}
-  - component: {fileID: 8621610015510174039}
-  - component: {fileID: 5189180819996789698}
+  - component: {fileID: 6895882823462217229}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -152,6 +152,27 @@ Transform:
   - {fileID: 4049540507313070674}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8621610015510174039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2422483769208336809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8db0fa00c497d5e4c8eec73db6b5bf59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxYValue: -8
+  movementSpeed: 15
+  jumpForce: 25
+  dashForce: 40
+  playerFeet: {fileID: 6300230111674099699}
+  directionArrow: {fileID: 21300000, guid: 3d1ea50a82068df49b44afad30809126, type: 3}
+  dashArrow: {fileID: 21300000, guid: d72379461e142eb44836678d20f79176, type: 3}
+  directionSprite: {fileID: 5771871167560800706}
+  debugImage: {fileID: 0}
 --- !u!212 &8674547832484977495
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -231,27 +252,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &8621610015510174039
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2422483769208336809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8db0fa00c497d5e4c8eec73db6b5bf59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxYValue: -8
-  movementSpeed: 15
-  jumpForce: 25
-  dashForce: 40
-  playerFeet: {fileID: 6300230111674099699}
-  directionArrow: {fileID: 21300000, guid: 3d1ea50a82068df49b44afad30809126, type: 3}
-  dashArrow: {fileID: 21300000, guid: d72379461e142eb44836678d20f79176, type: 3}
-  directionSprite: {fileID: 5771871167560800706}
---- !u!60 &5189180819996789698
+--- !u!60 &6895882823462217229
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
