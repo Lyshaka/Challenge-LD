@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
 	[Header("Properties")]
 	[SerializeField] private float movementSpeed = 15f;
 	[SerializeField] private float jumpForce = 10f;
+	[SerializeField] private int airJumps = 1;
 	[SerializeField] private float dashForce = 30f;
 
 	[Header("Technical")]
@@ -26,11 +27,14 @@ public class PlayerController : MonoBehaviour
 	private float defaultGravity;
 
 	private bool canInput = true;
+	private bool invicibility = false;
 	private bool debug = false;
 	private float debugSpeed = 20;
 
 	private float horizontalInput;
 	private int direction = 1;
+
+	private int remainingAirJumps;
 
 	private bool isGrounded = true;
 	private bool canDash = true;
@@ -55,18 +59,28 @@ public class PlayerController : MonoBehaviour
 
 	public void Damage(float amount)
 	{
-		KillPlayer();
+		if (!invicibility)
+			KillPlayer();
 	}
 
 	public void KillPlayer()
 	{
-		if (!debug)
+		if (!debug && !invicibility)
 			TeleportToCheckpoint();
 	}
 
 	private void Jump()
 	{
+		if (!isGrounded)
+			remainingAirJumps--;
+		rb.velocity = new Vector2(rb.velocity.x, 0f);
 		rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+	}
+
+	private void ToggleInvicibility()
+	{
+		invicibility = !invicibility;
+		GetComponent<SpriteRenderer>().color = invicibility ? Color.red : Color.white;
 	}
 
 	private bool IsGrounded()
@@ -93,6 +107,11 @@ public class PlayerController : MonoBehaviour
 			rb.gravityScale = debug ? 0f : defaultGravity;
 		}
 
+		if (Input.GetKeyDown(KeyCode.I))
+		{
+			ToggleInvicibility();
+		}
+
 		if (debug)
 		{
 			rb.velocity = Vector2.zero;
@@ -113,7 +132,7 @@ public class PlayerController : MonoBehaviour
 			{
 				horizontalInput = Input.GetAxisRaw("Horizontal");
 
-				if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+				if ((isGrounded || remainingAirJumps > 0) && Input.GetKeyDown(KeyCode.Space))
 					Jump();
 				if (canDash && !isDashing && Input.GetKeyDown(KeyCode.LeftShift))
 					StartCoroutine(Dash());
@@ -132,6 +151,10 @@ public class PlayerController : MonoBehaviour
 			directionSprite.flipX = direction == -1 ? true : false;
 
 			isGrounded = IsGrounded();
+			if (isGrounded)
+			{
+				remainingAirJumps = airJumps;
+			}
 			if (!isDashing && isGrounded)
 			{
 				canDash = true;
