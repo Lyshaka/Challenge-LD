@@ -727,11 +727,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1391660324791987683, guid: 47789facf97383440b2e525a5a630e03, type: 3}
   m_PrefabInstance: {fileID: 196288304}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &199586600 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7284830014975580641, guid: f92a3c49739adfb49ae2344c44a9d735, type: 3}
-  m_PrefabInstance: {fileID: 2129452037}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &224481902
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1261,8 +1256,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190096
+  m_fontColor: {r: 0.06415099, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -14102,7 +14097,19 @@ PrefabInstance:
     - target: {fileID: 8621610015510174039, guid: 0967ce88041dcc6438e98fee3af00004, type: 3}
       propertyPath: debugImage
       value: 
-      objectReference: {fileID: 199586600}
+      objectReference: {fileID: 1927463308}
+    - target: {fileID: 8621610015510174039, guid: 0967ce88041dcc6438e98fee3af00004, type: 3}
+      propertyPath: fullCameraSize
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8621610015510174039, guid: 0967ce88041dcc6438e98fee3af00004, type: 3}
+      propertyPath: fullCameraPosition.x
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 8621610015510174039, guid: 0967ce88041dcc6438e98fee3af00004, type: 3}
+      propertyPath: fullCameraPosition.y
+      value: 23
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16403,6 +16410,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 2969789597308618518, guid: 9240ae2ef8c2a724dbb610536e1809e4, type: 3}
   m_PrefabInstance: {fileID: 1920342808}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1927463308 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1488627401285874768, guid: f92a3c49739adfb49ae2344c44a9d735, type: 3}
+  m_PrefabInstance: {fileID: 2129452037}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1937311115 stripped
 Transform:

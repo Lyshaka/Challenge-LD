@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 270, y: -170}
+  m_AnchoredPosition: {x: 300, y: -200}
   m_SizeDelta: {x: 400, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3484159670560786119
@@ -67,14 +67,23 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Arrows : Move
 
-    I : Toggle Invicibility
+    Space : Jump
 
-    H : Debug Mode
+    Left Shift : Dash
+
+    I : Toggle
+    Invicibility
+
+    O : Toggle Full Camera Mode
+
+    H : Toggle Debug Mode
 
     J
     : Reload Scene
 
-    K : Last Checkpoint'
+    K : Teleport to Last Checkpoint
+
+    ESC : Quit'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -101,8 +110,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
-  m_fontSizeBase: 18
+  m_fontSize: 25
+  m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -160,7 +169,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &802358226584420342
 RectTransform:
   m_ObjectHideFlags: 0
@@ -236,7 +245,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8721411405949422201
 RectTransform:
   m_ObjectHideFlags: 0

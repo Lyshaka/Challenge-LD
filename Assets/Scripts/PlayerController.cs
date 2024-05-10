@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -21,6 +20,8 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private Sprite dashArrow;
 	[SerializeField] private SpriteRenderer directionSprite;
 	[SerializeField] private GameObject debugImage;
+	[SerializeField] private Vector2 fullCameraPosition;
+	[SerializeField] private float fullCameraSize;
 
 	private Vector2 checkpointPosition = Vector2.zero;
 
@@ -29,6 +30,7 @@ public class PlayerController : MonoBehaviour
 	private bool canInput = true;
 	private bool invicibility = false;
 	private bool debug = false;
+	private bool fullCamera = false;
 	private float debugSpeed = 20;
 
 	private float horizontalInput;
@@ -83,6 +85,21 @@ public class PlayerController : MonoBehaviour
 		GetComponent<SpriteRenderer>().color = invicibility ? Color.red : Color.white;
 	}
 
+	private void ToggleFullCamera()
+	{
+		fullCamera = !fullCamera;
+		if (fullCamera)
+		{
+			cameraObj.transform.position = new Vector3(fullCameraPosition.x, fullCameraPosition.y, -10f);
+			Camera.main.orthographicSize = fullCameraSize;
+		}
+		else
+		{
+			Camera.main.orthographicSize = 8;
+		}
+		
+	}
+
 	private bool IsGrounded()
 	{
 		//return (Physics2D.OverlapCircle(playerFeet.position, 0.1f, (1 << 6)));
@@ -98,7 +115,8 @@ public class PlayerController : MonoBehaviour
 
 	void Update()
 	{
-		cameraObj.transform.position = new Vector3(transform.position.x, transform.position.y, -10f);
+		if (!fullCamera)
+			cameraObj.transform.position = new Vector3(transform.position.x, transform.position.y, -10f);
 
 		if (Input.GetKeyDown(KeyCode.H))
 		{
@@ -106,24 +124,32 @@ public class PlayerController : MonoBehaviour
 			debugImage.SetActive(debug);
 			rb.gravityScale = debug ? 0f : defaultGravity;
 		}
-
+		if (Input.GetKeyDown(KeyCode.K))
+		{
+			TeleportToCheckpoint();
+		}
+		if (Input.GetKeyDown(KeyCode.J))
+		{
+			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		}
 		if (Input.GetKeyDown(KeyCode.I))
 		{
 			ToggleInvicibility();
+		}
+		if (Input.GetKeyDown(KeyCode.O))
+		{
+			ToggleFullCamera();
+		}
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			Application.Quit();
 		}
 
 		if (debug)
 		{
 			rb.velocity = Vector2.zero;
 			transform.position += new Vector3(Input.GetAxisRaw("Horizontal") * debugSpeed * Time.deltaTime, Input.GetAxisRaw("Vertical") * debugSpeed * Time.deltaTime, 0f);
-			if (Input.GetKeyDown(KeyCode.K))
-			{
-				TeleportToCheckpoint();
-			}
-			if (Input.GetKeyDown(KeyCode.J))
-			{
-				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-			}
+			
 
 		}
 		else
