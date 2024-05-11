@@ -67,19 +67,19 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Arrows : Move
 
-    Space : Jump
+    Space : Jump / Double Jump
 
     Left Shift : Dash
 
-    I : Toggle
-    Invicibility
+    I
+    : Toggle Invicibility
 
     O : Toggle Full Camera Mode
 
-    H : Toggle Debug Mode
+    H : Toggle Debug
+    Mode
 
-    J
-    : Reload Scene
+    J : Reload Scene
 
     K : Teleport to Last Checkpoint
 
